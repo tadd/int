@@ -29,6 +29,7 @@ class Int
   protected
 
   def round_median(n) = (@median = @median.round(n)).then { self }
+  def invert = new(1.0 / @last, 1.0 / @begin)
 
   public
 
@@ -63,9 +64,9 @@ class Int
   end
 
   def /(other)
-    other = ensure_coerced(other)
-    raise 'I sure I do not know how to implement this method. (TODO: read SICP)'
-    new(0, 0)
+    return self * ensure_coerced(other).invert
+    raise "I sure I don't know how to implement this method.\n" +
+          "[TODO] Read the SICP and fix this broken impl"
   end
 
   def <=>(other)
@@ -121,4 +122,6 @@ if $0 == __FILE__
   pp Int.error(0.2)
 
   pp [x.with_error(0.01), x.with_error_percent(1)].map{_1.round(2)}
+
+  pp [z / 2, z / z].map{_1.round(2)}
 end
