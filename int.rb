@@ -30,9 +30,8 @@ class Int
 
   def round_median(n) = (@median = @median.round(n)).then { self }
   def invert
-    beg = @last.zero? ? -Float::INFINITY : 1.0 / @last
-    last = @begin.zero? ? Float::INFINITY : 1.0 / @begin
-    new(beg, last)
+    one = @last.zero? ? -1.0 : 1.0
+    new(one / @last, 1.0 / @begin)
   end
 
   public
@@ -64,7 +63,9 @@ class Int
 
   def *(other)
     other = ensure_coerced(other)
-    new(*values.product(other.values).map{_1.inject(:*)}.minmax)
+    mul = values.product(other.values).map{_1.inject(:*)}
+    raise "got a NaN; I don't know what to do" if mul.any?(&:nan?)
+    new(*mul.minmax)
   end
 
   def /(other)
@@ -126,4 +127,14 @@ if $0 == __FILE__
   pp [x.with_error(0.01), x.with_error_percent(1)].map{_1.round(2)}
 
   pp [z / 2, z / z].map{_1.round(2)}
+
+  i = Int(0, 1.2)
+  j = Int(-1.2, 0)
+  pp [x/i, x/j]
+  ji = j.send(:invert)
+  pp ji
+  pp [i, ji]
+  #pp i*ji
+  #pp i/j
+  #pp j/i
 end
