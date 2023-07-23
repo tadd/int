@@ -29,7 +29,11 @@ class Int
   protected
 
   def round_median(n) = (@median = @median.round(n)).then { self }
-  def invert = new(1.0 / @last, 1.0 / @begin)
+  def invert
+    beg = @last.zero? ? -Float::INFINITY : 1.0 / @last
+    last = @begin.zero? ? Float::INFINITY : 1.0 / @begin
+    new(beg, last)
+  end
 
   public
 
@@ -64,9 +68,7 @@ class Int
   end
 
   def /(other)
-    return self * ensure_coerced(other).invert
-    raise "I sure I don't know how to implement this method.\n" +
-          "[TODO] Read the SICP and fix this broken impl"
+    self * ensure_coerced(other).invert
   end
 
   def <=>(other)
