@@ -95,6 +95,9 @@ class Int
     new(*[self.begin,last].map{_1.round(n)}).round_median(n)
   end
 
+  def with_error(e) = self * self.class.error(e)
+  def with_error_percent(e) = with_error(e * 0.01)
+
   def to_s = "(#{self.begin}..#{last})"
   def inspect = self.class.name + to_s.sub('..', "..(#{median})..")
 end
@@ -115,4 +118,7 @@ if $0 == __FILE__
   pp [x.comparable?(z), z.comparable?(x)]
   pp z.comparable?(:foo)
   pp z.round(1)
+  pp Int.error(0.2)
+
+  pp [x.with_error(0.01), x.with_error_percent(1)].map{_1.round(2)}
 end
