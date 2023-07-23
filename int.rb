@@ -16,13 +16,11 @@ class Int
       raise ArgumentError, 'needs beg <= last' unless beg <= last
     end
     @beg, @last = beg, last
-    @range = nil
     @median = nil
   end
 
   private
 
-  def range = @range ||= Range.new(@beg, @last)
   def new(...) = self.class.new(...)
   def scala?(other) = [Integer, Float, Rational].include?(other.class)
   def ensure_coerced(other) = other.kind_of?(self.class) ? other : coerce(other).first
