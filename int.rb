@@ -89,8 +89,7 @@ class Int
   end
 
   def comparable?(other)
-    other = ensure_coerced(other) rescue false
-    return false unless other
+    other = ensure_coerced(other) rescue (return false)
     !!(self <=> other) || @last == other.beg || @beg == other.last
   end
 
@@ -114,4 +113,8 @@ if $0 == __FILE__
   pp [x >= y, x <= y]
   pp [y >= x, y <= x]
   pp [x.comparable?(y), y.comparable?(x)]
+
+  z = Int(1, 4)
+  pp [x.comparable?(z), z.comparable?(x)]
+  pp z.comparable?(:foo)
 end
