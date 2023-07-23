@@ -30,6 +30,7 @@ class Int
   protected
 
   def values = @values ||= [@beg, @last]
+  def round_median(n) = @median = median.round(n)
 
   public
 
@@ -96,7 +97,9 @@ class Int
   end
 
   def round(n)
-    new(*[beg,last].map{_1.round(n)})
+    new(*[beg,last].map{_1.round(n)}).tap do |x|
+      x.instance_variable_set(:@median, median.round(n))
+    end
   end
 
   def to_s = "(#{beg}..#{last})"
