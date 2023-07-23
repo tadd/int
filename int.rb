@@ -13,7 +13,7 @@ class Int
       beg, last = med-error, med+error
     else
       raise ArgumentError, 'specify 2nd arg when no `error:`' unless last
-      raise ArgumentError, 'needs begin <= last' unless beg <= last
+      raise ArgumentError, "needs begin <= last: #{beg} <=> #{last}" unless beg <= last
     end
     @begin, @last = beg, last
     @values = [beg, last]
