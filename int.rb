@@ -1,7 +1,6 @@
 # Interval arithmetics
 
-class Int
-  include Comparable
+class Int < Numeric
   attr_reader :begin, :last, :median
   protected attr_reader :values
 
