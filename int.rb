@@ -73,7 +73,7 @@ class Int < Numeric
 
   def <=>(other)
     other = ensure_coerced(other)
-    return 0 if @begin == other.begin && @last == other.last
+    return 0 if @begin == @last && @begin == other.begin && @begin == other.last
     return 1 if @begin > other.last
     return -1 if @last < other.begin
     nil
@@ -81,12 +81,12 @@ class Int < Numeric
 
   def <=(other)
     other = ensure_coerced(other)
-    @last == other.begin || (self <=> other).then{|c| !c.nil? && c < 0}
+    @last <= other.begin
   end
 
   def >=(other)
     other = ensure_coerced(other)
-    @begin == other.last || (self <=> other).then{|c| !c.nil? && c > 0}
+    @begin >= other.last
   end
 
   def comparable?(other)
