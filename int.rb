@@ -1,22 +1,22 @@
 # Interval arithmetics
 
 class Int < Numeric
-  attr_reader :begin, :last, :median
+  attr_reader :begin, :end, :median
   protected attr_reader :values
 
-  def initialize(beg, last = nil, error: nil)
+  def initialize(beg, encl = nil, error: nil)
     if error
-      raise ArgumentError, 'do not specify 2nd arg when `error:`' if last
+      raise ArgumentError, 'do not specify 2nd arg when `error:`' if encl
       raise ArgumentError, 'error value should be non-negtative' if error.negative?
       med = beg
-      beg, last = med-error, med+error
+      beg, encl = med-error, med+error
     else
-      raise ArgumentError, 'specify 2nd arg when no `error:`' unless last
-      raise ArgumentError, "needs begin <= last: #{beg} <=> #{last}" unless beg <= last
+      raise ArgumentError, 'specify 2nd arg when no `error:`' unless encl
+      raise ArgumentError, "needs begin <= end: #{beg} <=> #{encl}" unless beg <= encl
     end
-    @begin, @last = beg, last
-    @values = [beg, last]
-    @median = (beg + last) / 2.0
+    @begin, @end = beg, encl
+    @values = [beg, encl]
+    @median = (beg + encl) / 2.0
   end
 
   private
@@ -29,8 +29,8 @@ class Int < Numeric
 
   def round_median(n) = (@median = @median.round(n)).then { self }
   def invert
-    one = @last.zero? ? -1.0 : 1.0
-    new(one / @last, 1.0 / @begin)
+    one = @end.zero? ? -1.0 : 1.0
+    new(one / @end, 1.0 / @begin)
   end
 
   public
@@ -52,12 +52,12 @@ class Int < Numeric
 
   def +(other)
     other = ensure_coerced(other)
-    new(@begin + other.begin, @last + other.last)
+    new(@begin + other.begin, @end + other.end)
   end
 
   def -(other)
     other = ensure_coerced(other)
-    new(@begin - other.last, @last - other.begin)
+    new(@begin - other.end, @end - other.begin)
   end
 
   def *(other)
@@ -73,35 +73,35 @@ class Int < Numeric
 
   def <=>(other)
     other = ensure_coerced(other)
-    return 0 if @begin == @last && @begin == other.begin && @begin == other.last
-    return 1 if @begin > other.last
-    return -1 if @last < other.begin
+    return 0 if @begin == @end && @begin == other.begin && @begin == other.end
+    return 1 if @begin > other.end
+    return -1 if @end < other.begin
     nil
   end
 
   def <=(other)
     other = ensure_coerced(other)
-    @last <= other.begin
+    @end <= other.begin
   end
 
   def >=(other)
     other = ensure_coerced(other)
-    @begin >= other.last
+    @begin >= other.end
   end
 
   def comparable?(other)
     other = ensure_coerced(other) rescue (return false)
-    !!(self <=> other) || @last == other.begin || @begin == other.last
+    !!(self <=> other) || @end == other.begin || @begin == other.end
   end
 
   def round(n)
-    new(*[self.begin,last].map{_1.round(n)}).round_median(n)
+    new(*[self.begin,self.end].map{_1.round(n)}).round_median(n)
   end
 
   def with_error(e) = self * self.class.error(e)
   def with_error_percent(e) = with_error(e * 0.01)
 
-  def to_s = "(#{self.begin}..#{last})"
+  def to_s = "(#{self.begin}..#{self.end})"
   def inspect = self.class.name + to_s.sub('..', "..(#{median})..")
 end
 
