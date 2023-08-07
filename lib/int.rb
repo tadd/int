@@ -42,9 +42,7 @@ class Int < Numeric
   end
 
   def coerce(other)
-    if other.kind_of?(self.class)
-      # do nothing
-    elsif scala?(other)
+    if scala?(other)
       other = new(*[other]*2)
     else
       raise "Unknown class #{other.class}: #{other}"
