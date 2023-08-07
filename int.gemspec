@@ -26,5 +26,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake"
   spec.add_development_dependency "test-unit"
+  spec.add_development_dependency "debug"
   spec.add_development_dependency "steep"
 end
