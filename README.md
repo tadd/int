@@ -17,7 +17,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Usage
 
 ```ruby
-pp Int(1, 2) + Int(3, 3) #=> ???
+pp Int(1, 2) + Int(3, 4) #=> Int(4..(5.0)..6)
 ```
 
 ## Development
