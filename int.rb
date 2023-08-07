@@ -63,7 +63,7 @@ class Int < Numeric
   def *(other)
     other = ensure_coerced(other)
     mul = values.product(other.values).map{_1.inject(:*)}
-    raise "got a NaN; I don't know what to do" if mul.any?(&:nan?)
+    raise "got a NaN; I don't know what to do" if mul.any?{|x| x.respond_to?(:nan?) && x.nan?}
     new(*mul.minmax)
   end
 
