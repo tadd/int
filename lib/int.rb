@@ -1,5 +1,7 @@
 # Interval arithmetics
 
+require_relative "int/version"
+
 class Int < Numeric
   attr_reader :begin, :end, :median
   protected attr_reader :values
