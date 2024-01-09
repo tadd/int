@@ -1,5 +1,9 @@
 # Int
 
+An interval-arithmetic-ish library (with a terrible name).
+
+## Introduction
+
 Welcome to my new gem! In this directory, I'll find the files I need to be able to package
 up my Ruby library into a gem. Put my Ruby code in the file `lib/int`. To experiment with
 that code, run `bin/console` for an interactive prompt.
