@@ -5,6 +5,7 @@ Gem::Specification.new do |spec|
   spec.version = Int::VERSION
   spec.authors = ["Tadashi Saito"]
   spec.email = ["tad.a.digger@gmail.com"]
+  spec.license = "MIT"
 
   spec.summary = "Interval-arithmetic-ish library with a terrible name."
   #spec.description = "TODO: Write a longer description or delete this line."
